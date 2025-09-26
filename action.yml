@@ -1,0 +1,31 @@
+name: 'Hello World Names Action'
+description: 'A GitHub Action that reads names from a YAML file and prints greetings'
+author: 'GitHub Copilot'
+
+inputs:
+  names-file:
+    description: 'Path to YAML file containing list of names'
+    required: true
+    default: 'names.yml'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install pyyaml
+    
+    - name: Run hello script
+      shell: bash
+      run: |
+        python ${{ github.action_path }}/hello.py "${{ inputs.names-file }}"
+
+branding:
+  icon: 'message-circle'
+  color: 'blue'
